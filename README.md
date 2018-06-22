@@ -1,7 +1,8 @@
 
 ## 使用Azure容器服务（AKS）快速搭建你的AI解决方案
 ### 概述
-Description: In this handson lab you will first use Microsoft Custom Vision Service to train an image classification model and deploy it with a web application on Azure Container Service(AKS). You will also learn how to scale the application using AKS. / 在本动手实验中，你将使用微软自定义视觉服务来训练图像分类模型，并将此模型和另一个web应用程序一起部署在Azure容器服务（AKS）环境中。同时，你将学习如何使用AKS来扩展应用。
+In this handson lab you will first use Microsoft Custom Vision Service to train an image classification model and deploy it with a web application on Azure Container Service(AKS). You will also learn how to scale the application using AKS. 
+在本动手实验中，你将使用微软自定义视觉服务来训练图像分类模型，并将此模型和另一个web应用程序一起部署在Azure容器服务（AKS）环境中。同时，你将学习如何使用AKS来扩展应用。
 
 ### Azure Custom Vision Service
 
@@ -149,15 +150,12 @@ sudo az acr login --name <RegistryName>
 <img src="image/acr_login.jpg" alt="">
 
 
-显示loginserver和密码 ???密码不需要？？
+显示loginserver
 
 ```Azure CLI
 az acr show --name <RegistryName> --query loginServer
-az acr update --name <RegistryName> --admin-enabled true
-az acr credential show --name <RegistryName> --query passwords[0].value
 ```
-<img src="image/acr_cred.jpg" alt="">
-
+确认loginServer的格式为<RegistryName>.azurecr.io
 
 #### 将镜像打标签推送到镜像仓库
 
@@ -271,9 +269,10 @@ http://<EXTERNAL-IP>:8080
 你应该看到如下的页面：
 <img src="image/run_query.jpg" alt="">
 在Image URL中输入以下图片链接进行测试：
-https://icdn2.digitaltrends.com/image/chimera-majestic-sheep-tongue.jpg
+```
 http://www.parishplan.uk/wp-content/uploads/2015/05/Sheep-300.jpg
 http://cf.ltkcdn.net/kids/images/slide/91879-445x400-animalfact8.jpg
+```
 结果会有类似的页面显示：
 <img src="image/run_doquery.jpg" alt="">
 
