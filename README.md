@@ -2,13 +2,16 @@
 ## 使用Azure容器服务（AKS）快速搭建你的AI解决方案
 ### 概述
 In this handson lab you will first use Microsoft Custom Vision Service to train an image classification model and deploy it with a web application on Azure Container Service(AKS). You will also learn how to scale the application using AKS. 
-在本动手实验中，你将使用微软自定义视觉服务来训练图像分类模型，并将此模型和另一个web应用程序一起部署在Azure容器服务（AKS）环境中。同时，你将学习如何使用AKS来扩展应用。
 
-### Azure Custom Vision Service
+在本动手实验中，你将使用微软自定义视觉服务来训练图像分类模型，并将此模型和另一个Java web应用程序一起部署在Azure容器服务（AKS）环境中（参加以下的系统架构示意图）。同时，你将学习如何使用AKS来扩展应用。
 
-Azure提供了自定义图像识别训练服务，用户可以上传自己的图片数据集，完成打标签、训练和发布的过程，而不需要关注底层的算法和训练机制。
+<img src="image/architecture.jpg" alt="" width="80%" align="middle">
 
-#### 上传
+### Azure 自定义视觉服务（Custom Vision Service）
+
+Azure提供了自定义图像识别训练服务，用户可以上传自己的图片数据集，完成打标签、训练和发布模型的过程，而不需要关注底层的算法和训练机制。
+
+#### 上传图片集
 使用提供的Azure账号登录[Custom Vision](https://www.customvision.ai/)，创建新的项目，进行动物种类识别。项目配置选择Classification和General(Compact)。
 
 <img src="image/create_project.jpg" alt="">
@@ -126,9 +129,10 @@ Azure Container Registry(ACR)是Azure提供的一方Docker Registry，基于开�
 az login
 ```
 输入命令后，会出现登录链接和登录授权码，在网页中输入登录授权码，并输入Azure用户名和密码完成登录。
-
-<img src="image/login.jpg" alt="">
-
+```
+lincon@linuxcon8:~$ az login
+To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code ADUZXKYLT to authenticate.
+```
 <img src="image/device.jpg" alt="" width="40%" height="40%">
 
 #### 创建Azure Container Registry
@@ -227,7 +231,7 @@ az role assignment create --assignee <clientID> --role Reader --scope <acrID>
 
 
 ### 部署和运行AI应用
-更新manifest文件：azure-ai.yaml
+更新manifest文件：azure-ai.yaml（你可以在git clone https://github.com/MS-CSE-GCR/Linuxcon2018.git 所获得的文件夹Linuxcon2018中找到）。
 Azure Container Registry (ACR) 用来存储容器的映像。在运行应用之前，我们需要使用ACR login server名称来更新Kubernetes manifest文件，及本实验的azure-ai.yaml文件。
 ```
 az acr list --resource-group <ResourceGroupName> --query "[].{acrLoginServer:loginServer}" --output table
