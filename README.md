@@ -3,24 +3,26 @@
 ### 概述
 In this handson lab you will first use Microsoft Custom Vision Service to train an image classification model and deploy it with a web application on Azure Container Service(AKS). You will also learn how to scale the application using AKS. 
 
-在本动手实验中，你将使用微软自定义视觉服务来训练图像分类模型，并将此模型和另一个Java web应用程序一起部署在Azure容器服务（AKS）环境中（参加以下的系统架构示意图）。同时，你将学习如何使用AKS来扩展应用。
+在本动手实验中，你将使用微软自定义视觉服务来训练图像分类模型，并将此模型和另一个Java web应用程序一起部署在Azure容器服务（AKS）环境中（系统架构示意图如下）。同时，你将学习如何使用AKS来扩展应用。
 
-<img src="image/architecture.jpg" alt="" width="80%" align="middle">
+<img src="image/architecture.jpg" alt="" width="80%" align="center">
 
-### Azure 自定义视觉服务（Custom Vision Service）
+### 练习一：使用Azure 自定义视觉服务（Custom Vision Service）
 
 Azure提供了自定义图像识别训练服务，用户可以上传自己的图片数据集，完成打标签、训练和发布模型的过程，而不需要关注底层的算法和训练机制。
 
-#### 上传图片集
+#### 1、上传图片集
+首先[点击这里下载图片](https://aka.ms/linuxcon8-imageset)，将下载的图片压缩包Animals.zip存储到本机，解压并查看图片内容，本次使用的是动物图片库，包括羊和狼两种动物。
+
 使用提供的Azure账号登录[Custom Vision](https://www.customvision.ai/)，创建新的项目，进行动物种类识别。项目配置选择Classification和General(Compact)。
 
 <img src="image/create_project.jpg" alt="">
 
-项目创建成功后，点击Add images上传图片。[图片下载链接](https://aka.ms/linuxcon8-imageset)
+项目创建成功后，点击Add images上传图片。
 
 <img src="image/upload.jpg" alt="">
 
-本次使用的是动物图片库，包括羊和狼两种动物，上传图片时，将图片库中train文件夹中的图片做为训练数据上传，每次上传一个文件夹内的图片，并标记为对应的标签。例如，将图片库中train文件夹中的sheep文件夹中的图片做为训练数据上传，并标记为sheep标签。狼的图片同理。
+上传图片时，将图片库中train文件夹中的图片做为训练数据上传，每次上传一个文件夹内的图片，并标记为对应的标签。例如，将图片库中train文件夹中的sheep文件夹中的图片做为训练数据上传，并标记为sheep标签。狼的图片同理。
 
 <img src="image/tag.jpg" alt="">
 
@@ -28,7 +30,7 @@ Azure提供了自定义图像识别训练服务，用户可以上传自己的图
 
 <img src="image/portal.jpg" alt="">
 
-#### 训练和测试
+#### 2、训练和测试
 
 点击训练按钮开始训练该图片分类应用。
 
@@ -44,7 +46,7 @@ Azure提供了自定义图像识别训练服务，用户可以上传自己的图
 
 <img src="image/test_local.jpg" alt="">
 
-#### 模型下载和部署
+#### 3、模型下载和部署
 
 点击export按钮可以下载训练好的模型，可以选择Core ML，Tensorflow for Android, ONNX以及Docker形式。在这次实验中我们下载docker形式的模型，选择Linux容器，就可以获得Docker File的下载地址(右键选择download获得下载地址)。
 
@@ -60,6 +62,10 @@ Azure提供了自定义图像识别训练服务，用户可以上传自己的图
 
 ``` Linux command
 wget "<custom vision model download url>" -k -O cv.zip
+```
+你也可以在这里下载我们做好的模型：http://aka.ms/linuxcon8-model
+执行以下命令，完成模型创建。
+```
 unzip cv.zip -d cv
 mv DockerFile Dockerfile
 sudo docker build -t model-img .
@@ -96,9 +102,9 @@ curl -X POST http://127.0.0.1:80/url -d "{ \"url\": \"https://icdn2.digitaltrend
 ```
 至此我们已经完成了动物图像分类模型的训练和导出。此模型的映像，model-img将作为AI应用程序中的后端应用：azure-ai-back.
 
-### 前端应用程序准备
+### 练习二：前端应用程序准备
 
-首先，获得AI应用azure-ai-front的代码：
+首先，获得AI前端应用azure-ai-front的代码：
 ```
 git clone https://github.com/MS-CSE-GCR/Linuxcon2018.git
 ```
@@ -118,11 +124,11 @@ REPOSITORY                          TAG                 IMAGE ID            CREA
 app-img                             latest              4a9249287efb        16 hours ago        661 MB
 ```
 
-### 创建Azure Container Registry
+### 练习三：创建Azure Container Registry
 
-Azure Container Registry(ACR)是Azure提供的一方Docker Registry，基于开源的Docker Registry 2.0，用于存储和管理用户的私有Docker容器镜像，AKS可以从该镜像仓库将镜像部署到容器集群中。
+Azure Container Registry(ACR)是Azure提供的Docker Registry，基于开源的Docker Registry 2.0，用于存储和管理用户的私有Docker容器镜像，AKS可以从该镜像仓库将镜像部署到容器集群中。
 
-#### 配置Azure命令行
+#### 1、配置Azure命令行
 
 创建和管理ACR需要使用Azure命令行，虚拟机里面已经安装好Azure CLI，首先需要登录完成用户配置。
 ``` Azure cli
@@ -131,11 +137,11 @@ az login
 输入命令后，会出现登录链接和登录授权码，在网页中输入登录授权码，并输入Azure用户名和密码完成登录。
 ```
 lincon@linuxcon8:~$ az login
-To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code ADUZXKYLT to authenticate.
+To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code AP3JJGVSK to authenticate.
 ```
 <img src="image/device.jpg" alt="" width="40%" height="40%">
 
-#### 创建Azure Container Registry
+#### 2、创建Azure Container Registry
 
 首先获取虚拟机所在的资源组（Resource Group）名称。如果需要，登录http://ms.portal.azure.com，在Resource Group所显示的即为资源组名称，该ACR将要创建在这个资源组里面。
 
@@ -161,7 +167,7 @@ az acr show --name <RegistryName> --query loginServer
 ```
 确认loginServer的格式为<RegistryName>.azurecr.io
 
-#### 将镜像打标签推送到镜像仓库
+#### 3、将镜像打标签推送到镜像仓库
 
 ```Azure CLI
 sudo docker tag app-img <RegistryName>.azurecr.io/app-img:v1
@@ -192,7 +198,7 @@ az acr repository show-tags --name <RegistryName> --repository model-img --outpu
 
 至此，前一部分实验生成的应用和模型镜像都完成了到Azure Container Registry的上传。
 
-### 创建Kubernetes Cluster
+### 练习四：创建Kubernetes Cluster
 运行以下命令创建Kubernetes Cluster。本操作会运行几分钟后完成。
 ```
 az aks create --resource-group <ResourceGroupName> --name <ClusterName> --node-count 1 --generate-ssh-keys
@@ -227,10 +233,7 @@ az acr show --name <RegistryName> --resource-group <ResourceGroupName> --query "
 az role assignment create --assignee <clientID> --role Reader --scope <acrID>
 ```
 
-
-
-
-### 部署和运行AI应用
+### 练习四：部署和运行AI应用
 更新manifest文件：azure-ai.yaml（你可以在git clone https://github.com/MS-CSE-GCR/Linuxcon2018.git 所获得的文件夹Linuxcon2018中找到）。
 Azure Container Registry (ACR) 用来存储容器的映像。在运行应用之前，我们需要使用ACR login server名称来更新Kubernetes manifest文件，及本实验的azure-ai.yaml文件。
 ```
@@ -271,21 +274,21 @@ azure-ai-front   LoadBalancer   10.0.243.231   40.114.107.184   8080:30848/TCP  
 获得EXTERNAL-IP以后，在浏览器中输入以下内容访问AI应用：
 http://<EXTERNAL-IP>:8080
 你应该看到如下的页面：
-<img src="image/run_query.jpg" alt="">
+<img src="image/run_query.jpg" alt="" width="50%" align="center">
 在Image URL中输入以下图片链接进行测试：
 ```
 http://www.parishplan.uk/wp-content/uploads/2015/05/Sheep-300.jpg
 http://cf.ltkcdn.net/kids/images/slide/91879-445x400-animalfact8.jpg
 ```
 结果会有类似的页面显示：
-<img src="image/run_doquery.jpg" alt="">
+<img src="image/run_doquery.jpg" alt="" width="80%">
 
 你也可以使用在线的其他图片来测试图像分类的准确度。这里的azure-ai-front接收了你的请求，将图片输入到azure-ai-back进行图像分类，后者再将分类结果以JSON的格式返回给azure-ai-front。
 
-### Scale AI应用
+### 练习五：Scale AI应用
 此前我们已经完成了AI应用在AKS上的部署和运行工作，下面我们来看看如何将此应用进行scale。
 
-#### Scale AKS Nodes
+#### 1、Scale AKS Nodes
 此前我们创建的Kubernetes Cluster只有一个node。为了让我们的AI应用能够处理更多的工作负载，我们可以手动地调整node的数目。
 
 下面我们将node数目增加到3个，整个操作需要耗时几分钟。
@@ -300,7 +303,7 @@ aks-nodepool1-15518157-0   Ready     agent     1d        v1.9.6
 aks-nodepool1-15518157-1   Ready     agent     6h        v1.9.6
 aks-nodepool1-15518157-2   Ready     agent     6h        v1.9.6
 ```
-#### 手动Scale pods
+#### 2、手动Scale pods
 此前我们部署的azure-ai-front和azure-ai-back的每个实例，都是有一个replica。运行以下命令查看：
 ```
 lincon@linuxcon8:~$ kubectl get pods
@@ -323,7 +326,7 @@ azure-ai-front-565b88ccd8-mrh6c   1/1       Running   0          6h
 azure-ai-front-565b88ccd8-x575h   1/1       Running   0          6h
 azure-ai-front-565b88ccd8-zlhzr   1/1       Running   0          16h
 ```
-#### Autoscale pods
+#### 3、Autoscale pods
 Kubernetes支持horizontal pod autoscaling，可以根据CPU使用率以及其他标准来调整pod数量。
 要使用autoscaler, 我们必须定义CPU requests和limits. 如在 azure-ai-front deployment中我们定义了container requests 0.25 CPU, limit为0.5 CPU. 如下所示:
 ```
