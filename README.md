@@ -5,7 +5,7 @@ In this handson lab you will first use Microsoft Custom Vision Service to train 
 
 在本动手实验中，你将使用微软自定义视觉服务来训练图像分类模型，并将此模型和另一个Java web应用程序一起部署在Azure容器服务（AKS）环境中（系统架构示意图如下）。同时，你将学习如何使用AKS来扩展应用。
 
-<img src="image/architecture.jpg" alt="" width="80%" align="center">
+<img src="image/architecture.jpg" alt="">
 
 ### 练习一：使用Azure 自定义视觉服务（Custom Vision Service）
 
@@ -272,18 +272,18 @@ azure-ai-front   LoadBalancer   10.0.243.231   40.114.107.184   8080:30848/TCP  
 ```
 
 获得EXTERNAL-IP以后，在浏览器中输入以下内容访问AI应用：
-http://<EXTERNAL-IP>:8080
+http://EXTERNAL-IP:8080
 你应该看到如下的页面：
 
-<img src="image/run_query.jpg" alt="" width="80%">
+<img src="image/run_query.jpg" alt="" width="100%">
 
-在Image URL中输入以下图片链接进行测试：
+在Image URL中输入以下图片链接，并按Submit进行测试：
 ```
 http://www.parishplan.uk/wp-content/uploads/2015/05/Sheep-300.jpg
 http://cf.ltkcdn.net/kids/images/slide/91879-445x400-animalfact8.jpg
 ```
 结果会有类似的页面显示：
-<img src="image/run_doquery.jpg" alt="" width="80%">
+<img src="image/run_doquery.jpg" alt="" width="100%">
 
 你也可以使用在线的其他图片来测试图像分类的准确度。这里的azure-ai-front接收了你的请求，将图片输入到azure-ai-back进行图像分类，后者再将分类结果以JSON的格式返回给azure-ai-front。
 
