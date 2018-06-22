@@ -233,7 +233,7 @@ az acr show --name <RegistryName> --resource-group <ResourceGroupName> --query "
 az role assignment create --assignee <clientID> --role Reader --scope <acrID>
 ```
 
-### 练习四：部署和运行AI应用
+### 练习五：部署和运行AI应用
 更新manifest文件：azure-ai.yaml（你可以在git clone https://github.com/MS-CSE-GCR/Linuxcon2018.git 所获得的文件夹Linuxcon2018中找到）。
 Azure Container Registry (ACR) 用来存储容器的映像。在运行应用之前，我们需要使用ACR login server名称来更新Kubernetes manifest文件，及本实验的azure-ai.yaml文件。
 ```
@@ -274,7 +274,9 @@ azure-ai-front   LoadBalancer   10.0.243.231   40.114.107.184   8080:30848/TCP  
 获得EXTERNAL-IP以后，在浏览器中输入以下内容访问AI应用：
 http://<EXTERNAL-IP>:8080
 你应该看到如下的页面：
-<img src="image/run_query.jpg" alt="" width="50%" align="center">
+
+<img src="image/run_query.jpg" alt="" width="80%">
+
 在Image URL中输入以下图片链接进行测试：
 ```
 http://www.parishplan.uk/wp-content/uploads/2015/05/Sheep-300.jpg
@@ -285,7 +287,7 @@ http://cf.ltkcdn.net/kids/images/slide/91879-445x400-animalfact8.jpg
 
 你也可以使用在线的其他图片来测试图像分类的准确度。这里的azure-ai-front接收了你的请求，将图片输入到azure-ai-back进行图像分类，后者再将分类结果以JSON的格式返回给azure-ai-front。
 
-### 练习五：Scale AI应用
+### 练习六：Scale AI应用
 此前我们已经完成了AI应用在AKS上的部署和运行工作，下面我们来看看如何将此应用进行scale。
 
 #### 1、Scale AKS Nodes
