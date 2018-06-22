@@ -1,5 +1,28 @@
 
 ## 使用Azure容器服务（AKS）快速搭建你的AI解决方案
+<!-- TOC -->
+
+- [使用Azure容器服务（AKS）快速搭建你的AI解决方案](#使用azure容器服务aks快速搭建你的ai解决方案)
+    - [概述](#概述)
+    - [练习一：使用Azure 自定义视觉服务（Custom Vision Service）](#练习一使用azure-自定义视觉服务custom-vision-service)
+        - [1、上传图片集](#1上传图片集)
+        - [2、训练和测试](#2训练和测试)
+        - [3、模型下载和部署](#3模型下载和部署)
+    - [练习二：前端应用程序准备](#练习二前端应用程序准备)
+    - [练习三：创建Azure Container Registry](#练习三创建azure-container-registry)
+        - [1、配置Azure命令行](#1配置azure命令行)
+        - [2、创建Azure Container Registry](#2创建azure-container-registry)
+        - [3、将镜像打标签推送到镜像仓库](#3将镜像打标签推送到镜像仓库)
+    - [练习四：创建Kubernetes Cluster](#练习四创建kubernetes-cluster)
+        - [配置ACR认证](#配置acr认证)
+    - [练习五：部署和运行AI应用](#练习五部署和运行ai应用)
+    - [练习六：Scale AI应用](#练习六scale-ai应用)
+        - [1、Scale AKS Nodes](#1scale-aks-nodes)
+        - [2、手动Scale pods](#2手动scale-pods)
+        - [3、Autoscale pods](#3autoscale-pods)
+    - [总结](#总结)
+
+<!-- /TOC -->
 ### 概述
 In this handson lab you will first use Microsoft Custom Vision Service to train an image classification model and deploy it with a web application on Azure Container Service(AKS). You will also learn how to scale the application using AKS. 
 
