@@ -34,7 +34,7 @@ In this handson lab you will first use Microsoft Custom Vision Service to train 
 #### 关于微软AI平台
 
 微软的AI平台基于Azure云环境，综合了当前最先进的技术，包括机器学习、深度学习等，为开发者和数据科学家提供了一个灵活的AI平台。本实验所使用的Azure 自定义视觉服务（Custom Vision Service）即属于“认知服务（Cognitive Service）”的一部分。
-<img src="image/ai.PNG" alt="">
+<img src="image/ai.png" alt="">
 
 ### 练习一：使用Azure 自定义视觉服务（Custom Vision Service）
 
