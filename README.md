@@ -4,6 +4,7 @@
 
 - [使用Azure容器服务（AKS）快速搭建你的AI解决方案](#使用azure容器服务aks快速搭建你的ai解决方案)
     - [概述](#概述)
+        - [关于微软AI平台](#关于微软ai平台)
     - [练习一：使用Azure 自定义视觉服务（Custom Vision Service）](#练习一使用azure-自定义视觉服务custom-vision-service)
         - [1、上传图片集](#1上传图片集)
         - [2、训练和测试](#2训练和测试)
@@ -29,6 +30,9 @@ In this handson lab you will first use Microsoft Custom Vision Service to train 
 在本动手实验中，你将使用微软自定义视觉服务来训练图像分类模型，并将此模型和另一个Java web应用程序一起部署在Azure容器服务（AKS）环境中（系统架构示意图如下）。同时，你将学习如何使用AKS来扩展应用。
 
 <img src="image/architecture.jpg" alt="">
+#### 关于微软AI平台
+微软的AI平台基于Azure云环境，综合了当前最先进的技术，包括机器学习、深度学习等，为开发者和数据科学家提供了一个灵活的AI平台。本实验所使用的Azure 自定义视觉服务（Custom Vision Service）即属于“认知服务（Cognitive Service）”的一部分。
+<img src="image/ai.PNG" alt="">
 
 ### 练习一：使用Azure 自定义视觉服务（Custom Vision Service）
 
